@@ -1,7 +1,6 @@
-package rlbotexample;
+package net.akami.rlbot.core;
 
 import rlbot.manager.BotManager;
-import rlbotexample.util.PortReader;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -14,23 +13,21 @@ import java.util.stream.Collectors;
 /**
  * See JavaAgent.py for usage instructions.
  *
- * Look inside SampleBot.java for the actual bot logic!
+ * Look inside InputListener.java for the actual bot logic!
  */
-public class JavaExample {
+public class SoloRLBotMain {
 
-    private static final Integer DEFAULT_PORT = 17357;
+    private static final int DEFAULT_PORT = 17357;
 
     public static void main(String[] args) {
 
         BotManager botManager = new BotManager();
-        Integer port = PortReader.readPortFromArgs(args).orElseGet(() -> {
-            System.out.println("Could not read port from args, using default!");
-            return DEFAULT_PORT;
-        });
-
-        SamplePythonInterface pythonInterface = new SamplePythonInterface(port, botManager);
+        BotLauncher pythonInterface = new BotLauncher(DEFAULT_PORT, botManager);
         new Thread(pythonInterface::start).start();
+        displayWindow(botManager);
+    }
 
+    private static void displayWindow(BotManager botManager) {
         JFrame frame = new JFrame("Java Bot");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -41,14 +38,14 @@ public class JavaExample {
         JPanel dataPanel = new JPanel();
         dataPanel.setLayout(new BoxLayout(dataPanel, BoxLayout.Y_AXIS));
         dataPanel.setBorder(new EmptyBorder(0, 10, 0, 0));
-        dataPanel.add(new JLabel("Listening on port " + port), BorderLayout.CENTER);
+        dataPanel.add(new JLabel("Listening on port " + DEFAULT_PORT), BorderLayout.CENTER);
         dataPanel.add(new JLabel("I'm the thing controlling the Java bot, keep me open :)"), BorderLayout.CENTER);
         JLabel botsRunning = new JLabel("Bots running: ");
         dataPanel.add(botsRunning, BorderLayout.CENTER);
         panel.add(dataPanel, BorderLayout.CENTER);
         frame.add(panel);
 
-        URL url = JavaExample.class.getClassLoader().getResource("icon.png");
+        URL url = SoloRLBotMain.class.getClassLoader().getResource("icon.png");
         Image image = Toolkit.getDefaultToolkit().createImage(url);
         panel.add(new JLabel(new ImageIcon(image)), BorderLayout.WEST);
         frame.setIconImage(image);

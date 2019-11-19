@@ -1,4 +1,4 @@
-package rlbotexample.vector;
+package net.akami.rlbot.vector;
 
 import com.google.flatbuffers.FlatBufferBuilder;
 
@@ -8,17 +8,17 @@ import com.google.flatbuffers.FlatBufferBuilder;
  * This class is here for your convenience, it is NOT part of the framework. You can add to it as much
  * as you want, or delete it.
  */
-public class Vector3 extends rlbot.vector.Vector3 {
+public class Vector3f extends rlbot.vector.Vector3 {
 
-    public Vector3(double x, double y, double z) {
+    public Vector3f(double x, double y, double z) {
         super((float) x, (float) y, (float) z);
     }
 
-    public Vector3() {
+    public Vector3f() {
         this(0, 0, 0);
     }
 
-    public Vector3(rlbot.flat.Vector3 vec) {
+    public Vector3f(rlbot.flat.Vector3 vec) {
         // Invert the X value so that the axes make more sense.
         this(-vec.x(), vec.y(), vec.z());
     }
@@ -28,22 +28,22 @@ public class Vector3 extends rlbot.vector.Vector3 {
         return rlbot.flat.Vector3.createVector3(builder, -x, y, z);
     }
 
-    public Vector3 plus(Vector3 other) {
-        return new Vector3(x + other.x, y + other.y, z + other.z);
+    public Vector3f plus(Vector3f other) {
+        return new Vector3f(x + other.x, y + other.y, z + other.z);
     }
 
-    public Vector3 minus(Vector3 other) {
-        return new Vector3(x - other.x, y - other.y, z - other.z);
+    public Vector3f minus(Vector3f other) {
+        return new Vector3f(x - other.x, y - other.y, z - other.z);
     }
 
-    public Vector3 scaled(double scale) {
-        return new Vector3(x * scale, y * scale, z * scale);
+    public Vector3f scaled(double scale) {
+        return new Vector3f(x * scale, y * scale, z * scale);
     }
 
     /**
      * If magnitude is negative, we will return a vector facing the opposite direction.
      */
-    public Vector3 scaledToMagnitude(double magnitude) {
+    public Vector3f scaledToMagnitude(double magnitude) {
         if (isZero()) {
             throw new IllegalStateException("Cannot scale up a vector with length zero!");
         }
@@ -51,7 +51,7 @@ public class Vector3 extends rlbot.vector.Vector3 {
         return scaled(scaleRequired);
     }
 
-    public double distance(Vector3 other) {
+    public double distance(Vector3f other) {
         double xDiff = x - other.x;
         double yDiff = y - other.y;
         double zDiff = z - other.z;
@@ -66,7 +66,7 @@ public class Vector3 extends rlbot.vector.Vector3 {
         return x * x + y * y + z * z;
     }
 
-    public Vector3 normalized() {
+    public Vector3f normalized() {
 
         if (isZero()) {
             throw new IllegalStateException("Cannot normalize a vector with length zero!");
@@ -74,7 +74,7 @@ public class Vector3 extends rlbot.vector.Vector3 {
         return this.scaled(1 / magnitude());
     }
 
-    public double dotProduct(Vector3 other) {
+    public double dotProduct(Vector3f other) {
         return x * other.x + y * other.y + z * other.z;
     }
 
@@ -82,21 +82,39 @@ public class Vector3 extends rlbot.vector.Vector3 {
         return x == 0 && y == 0 && z == 0;
     }
 
-    public Vector2 flatten() {
-        return new Vector2(x, y);
+    public Vector2f flatten() {
+        return new Vector2f(x, y);
     }
 
-    public double angle(Vector3 v) {
+    public double angle(Vector3f v) {
         double mag2 = magnitudeSquared();
         double vmag2 = v.magnitudeSquared();
         double dot = dotProduct(v);
         return Math.acos(dot / Math.sqrt(mag2 * vmag2));
     }
 
-    public Vector3 crossProduct(Vector3 v) {
+    public Vector3f crossProduct(Vector3f v) {
         double tx = y * v.z - z * v.y;
         double ty = z * v.x - x * v.z;
         double tz = x * v.y - y * v.x;
-        return new Vector3(tx, ty, tz);
+        return new Vector3f(tx, ty, tz);
+    }
+
+    @Override
+    public String toString() {
+        return "(" + x + ", " + y + ", " + z + ")";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof Vector3f) {
+            Vector3f other = (Vector3f) obj;
+            return x == other.x && y == other.y && z == other.z;
+        }
+        return false;
+    }
+
+    public boolean absoluteEquals(Vector3f o) {
+        return Math.abs(x) == Math.abs(o.x) && Math.abs(y) == Math.abs(o.y) && Math.abs(z) == Math.abs(o.z);
     }
 }

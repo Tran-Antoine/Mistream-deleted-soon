@@ -1,4 +1,4 @@
-package rlbotexample.output;
+package net.akami.rlbot.output;
 
 import rlbot.ControllerState;
 
