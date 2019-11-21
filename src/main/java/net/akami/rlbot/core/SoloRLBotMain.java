@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 /**
  * See JavaAgent.py for usage instructions.
  *
- * Look inside InputListener.java for the actual bot logic!
+ * Look inside InputProcessor.java for the actual bot logic!
  */
 public class SoloRLBotMain {
 

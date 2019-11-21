@@ -13,6 +13,6 @@ public class BotLauncher extends SocketServer {
 
     @Override
     protected Bot initBot(int index, String botType, int team) {
-        return new InputListener(index, new BotController());
+        return new InputProcessor(index, new BotController());
     }
 }

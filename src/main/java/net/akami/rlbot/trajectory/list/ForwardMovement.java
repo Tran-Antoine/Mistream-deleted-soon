@@ -9,7 +9,7 @@ public class ForwardMovement extends TerminalOutputSequence {
     private float speed;
 
     public ForwardMovement(int frameExecutions, float speed) {
-        super(frameExecutions);
+        super(frameExecutions, null);
         this.speed = speed;
     }
 

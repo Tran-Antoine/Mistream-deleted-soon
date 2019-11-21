@@ -8,8 +8,10 @@ import java.util.Queue;
 public abstract class FragmentedOutputSequence implements OutputSequence {
 
     private List<OutputSequence> children;
+    protected BotController botController;
 
-    public FragmentedOutputSequence() {
+    public FragmentedOutputSequence(BotController botController) {
+        this.botController = botController;
         this.children = loadChildren();
     }
 

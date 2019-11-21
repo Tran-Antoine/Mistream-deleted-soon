@@ -9,7 +9,7 @@ public class RightMovement extends TerminalOutputSequence {
     private float speed;
 
     public RightMovement(int frameExecutions, float speed) {
-        super(frameExecutions);
+        super(frameExecutions, null);
         this.speed = speed;
     }
 

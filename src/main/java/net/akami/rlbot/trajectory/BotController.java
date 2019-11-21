@@ -1,39 +1,57 @@
 package net.akami.rlbot.trajectory;
 
+import net.akami.rlbot.gamedata.BoostDataProvider;
+import net.akami.rlbot.gamedata.DataProvider;
+import net.akami.rlbot.gamedata.LocationsProvider;
 import net.akami.rlbot.trajectory.list.DiagonalKickoff;
 import rlbot.ControllerState;
 import rlbot.flat.GameTickPacket;
 
 import java.util.*;
-import java.util.function.Supplier;
+import java.util.function.Function;
 
-public class BotController {
+public class BotController implements DataProvider {
 
     private static final int MAX_PREDICTIONS = 3;
     private final Queue<OutputSequence> queue;
-    private final List<Supplier<OutputSequence>> generator;
+    private final List<Function<BotController, OutputSequence>> generator;
+    private final List<DataProvider> dataProviders;
 
-    private OutputSequence current;
+    private OutputSequence currentSequence;
 
     public BotController() {
         this.queue = new LinkedList<>();
         this.generator = loadSuppliers();
+        this.dataProviders = loadProviders();
     }
 
-    private List<Supplier<OutputSequence>> loadSuppliers() {
+    private List<Function<BotController, OutputSequence>> loadSuppliers() {
         return Arrays.asList(
                 DiagonalKickoff::new
         );
     }
 
+    private List<DataProvider> loadProviders() {
+        return Arrays.asList(
+                new BoostDataProvider(),
+                new LocationsProvider()
+        );
+    }
+
+    @Override
     public void update(GameTickPacket packet) {
+        dataProviders.forEach((dataProvider -> dataProvider.update(packet)));
+        updateQueue(packet);
+    }
+
+    private void updateQueue(GameTickPacket packet) {
         // If several trajectories are already planned, we avoid loading any more
         if(queue.size() >= MAX_PREDICTIONS) {
             return;
         }
 
-        for(Supplier<OutputSequence> supplier : generator) {
-            OutputSequence sequence = supplier.get();
+        for(Function<BotController, OutputSequence> supplier : generator) {
+            OutputSequence sequence = supplier.apply(this);
             if(sequence.isSuitable(packet, waitTime(), queue)) {
                 sequence.queue(queue);
             }
@@ -48,18 +66,23 @@ public class BotController {
                 .orElse(0);
     }
 
-    public Optional<ControllerState> findController() {
-        if(current == null || current.isStopped()) {
-            this.current = queue.poll();
+    public Optional<ControllerState> provideController() {
+        if(currentSequence == null || currentSequence.isStopped()) {
+            this.currentSequence = queue.poll();
 
-            if(current == null) {
+            if(currentSequence == null) {
                 return Optional.empty();
             }
         }
-        return Optional.of(current.apply());
+        return Optional.of(currentSequence.apply());
     }
 
-    public OutputSequence getCurrent() {
-        return current;
+    public <T extends DataProvider> T getDataProvider(Class<T> clazz) {
+        for(DataProvider provider : dataProviders) {
+            if(provider.getClass().equals(clazz)) {
+                return (T) provider;
+            }
+        }
+        throw new IllegalStateException();
     }
 }

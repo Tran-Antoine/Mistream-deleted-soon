@@ -1,5 +1,6 @@
 package net.akami.rlbot.trajectory.list;
 
+import net.akami.rlbot.trajectory.BotController;
 import net.akami.rlbot.trajectory.FragmentedOutputSequence;
 import net.akami.rlbot.trajectory.OutputSequence;
 import net.akami.rlbot.vector.Vector3f;
@@ -11,7 +12,8 @@ public abstract class KickoffOutputSequence extends FragmentedOutputSequence {
 
     protected Vector3f location;
 
-    public KickoffOutputSequence(Vector3f location) {
+    public KickoffOutputSequence(Vector3f location, BotController botController) {
+        super(botController);
         this.location = location;
     }
 

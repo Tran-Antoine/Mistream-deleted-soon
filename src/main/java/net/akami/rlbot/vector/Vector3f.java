@@ -74,7 +74,7 @@ public class Vector3f extends rlbot.vector.Vector3 {
         return this.scaled(1 / magnitude());
     }
 
-    public double dotProduct(Vector3f other) {
+    public double dot(Vector3f other) {
         return x * other.x + y * other.y + z * other.z;
     }
 
@@ -89,7 +89,7 @@ public class Vector3f extends rlbot.vector.Vector3 {
     public double angle(Vector3f v) {
         double mag2 = magnitudeSquared();
         double vmag2 = v.magnitudeSquared();
-        double dot = dotProduct(v);
+        double dot = dot(v);
         return Math.acos(dot / Math.sqrt(mag2 * vmag2));
     }
 
