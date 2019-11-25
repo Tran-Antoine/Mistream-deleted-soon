@@ -1,7 +1,6 @@
 package net.akami.mistream.core;
 
 import net.akami.mistream.output.ControlsOutput;
-import net.akami.mistream.trajectory.BotController;
 import rlbot.Bot;
 import rlbot.ControllerState;
 import rlbot.flat.GameTickPacket;

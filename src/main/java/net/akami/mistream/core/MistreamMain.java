@@ -23,7 +23,7 @@ public class MistreamMain {
     }
 
     private static void displayWindow(BotManager botManager) {
-        JFrame frame = new JFrame("Java Bot");
+        JFrame frame = new JFrame("Mistream");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JPanel panel = new JPanel();

@@ -1,6 +1,6 @@
 package net.akami.mistream.gamedata;
 
-import net.akami.mistream.trajectory.BotController;
+import net.akami.mistream.core.BotController;
 import net.akami.mistream.vector.Vector2f;
 import net.akami.mistream.vector.Vector3f;
 import rlbot.cppinterop.RLBotDll;
@@ -69,9 +69,10 @@ public class BoostDataProvider implements DataProvider {
         return currentNearest;
     }
 
+    // This method is approximate. It does not 100% guarantee that the pad will be the quickest to be reached of all
     public BoostPad getFastestPad(Vector3f carLocation, Vector2f carDirection, float speed, boolean boost) {
 
-        double factor = 10000000;
+        double factor = 100000;
         BoostPad currentBest = null;
 
         for(BoostPad pad : orderedBoosts) {

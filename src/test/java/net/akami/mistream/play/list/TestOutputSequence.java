@@ -1,7 +1,7 @@
-package net.akami.mistream.trajectory.list;
+package net.akami.mistream.play.list;
 
-import net.akami.mistream.trajectory.FragmentedOutputSequence;
-import net.akami.mistream.trajectory.OutputSequence;
+import net.akami.mistream.play.FragmentedOutputSequence;
+import net.akami.mistream.play.OutputSequence;
 import rlbot.flat.GameTickPacket;
 
 import java.util.*;
@@ -18,7 +18,7 @@ public class TestOutputSequence extends FragmentedOutputSequence {
     }
 
     @Override
-    public boolean isSuitable(GameTickPacket packet, int delay, Queue<OutputSequence> queue) {
+    public boolean isSuitable(GameTickPacket packet, Queue<OutputSequence> queue) {
         return queue.size() == 0;
     }
 }

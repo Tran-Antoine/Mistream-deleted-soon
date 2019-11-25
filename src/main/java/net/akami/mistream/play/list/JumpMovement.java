@@ -1,8 +1,8 @@
-package net.akami.mistream.trajectory.list;
+package net.akami.mistream.play.list;
 
 import net.akami.mistream.output.ControlsOutput;
-import net.akami.mistream.trajectory.BotController;
-import net.akami.mistream.trajectory.TerminalOutputSequence;
+import net.akami.mistream.core.BotController;
+import net.akami.mistream.play.TerminalOutputSequence;
 import rlbot.ControllerState;
 
 public class JumpMovement extends TerminalOutputSequence {

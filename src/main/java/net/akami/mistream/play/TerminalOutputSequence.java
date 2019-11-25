@@ -1,9 +1,9 @@
-package net.akami.mistream.trajectory;
+package net.akami.mistream.play;
 
+import net.akami.mistream.core.BotController;
 import rlbot.ControllerState;
-import rlbot.flat.GameTickPacket;
 
-import java.util.Queue;
+import java.util.LinkedList;
 
 public abstract class TerminalOutputSequence implements OutputSequence {
 
@@ -20,7 +20,7 @@ public abstract class TerminalOutputSequence implements OutputSequence {
     protected abstract ControllerState loadController();
 
     @Override
-    public ControllerState apply() {
+    public ControllerState apply(LinkedList<OutputSequence> queue) {
         this.currentFrameExecutions++;
         if(controllerState == null) {
             controllerState = loadController();
@@ -29,24 +29,8 @@ public abstract class TerminalOutputSequence implements OutputSequence {
     }
 
     @Override
-    public void queue(Queue<OutputSequence> target) {
-        target.add(this);
-    }
-
-    @Override
-    public int frameExecutionsNumber() {
-        return frameExecutions;
-    }
-
-    // Terminal sequences are usually not suitable for any situation. They are rather used in FragmentedOutputSequences
-    @Override
-    public boolean isSuitable(GameTickPacket packet, int delay, Queue<OutputSequence> queue) {
-        return false;
-    }
-
-    @Override
     public boolean isStopped() {
-        return currentFrameExecutions > frameExecutionsNumber();
+        return currentFrameExecutions > frameExecutions;
     }
 
 }

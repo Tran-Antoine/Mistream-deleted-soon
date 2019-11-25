@@ -27,10 +27,6 @@ public class CarInfoProvider implements DataProvider {
         double noseX = -1 * Math.cos(pitch) * Math.cos(yaw);
         double noseY = Math.cos(pitch) * Math.sin(yaw);
         double noseZ = Math.sin(pitch);
-        /*double cp = Math.cos(pitch);
-        double sp = Math.sin(pitch);
-        double cy = Math.cos(yaw);
-        double sy = Math.sin(yaw);*/
 
         this.botDirection = new Vector3f(noseX, noseY, noseZ);
     }

@@ -1,7 +1,7 @@
-package net.akami.mistream.trajectory.list;
+package net.akami.mistream.play.list;
 
-import net.akami.mistream.trajectory.BotController;
-import net.akami.mistream.trajectory.OutputSequence;
+import net.akami.mistream.core.BotController;
+import net.akami.mistream.play.OutputSequence;
 import net.akami.mistream.vector.Vector3f;
 
 import java.util.Arrays;
@@ -22,10 +22,9 @@ public class DiagonalKickoff extends KickoffOutputSequence {
                 new BasicMovement(3, -1, factor),
                 new SideDash(botController, isOnLeft(), -1),
                 new BasicMovement(26, -1, -factor, factor),
-                new JumpMovement(10, 0, 0, 1, botController),
-                new ResetMovement(1, botController),
+                new JumpMovement(5, 0, 0, 1, botController),
+                new ResetMovement(4, botController),
                 new JumpMovement(0, -factor, 0, 1, botController)
-                //new LinearEndToEndSequence(Vector3f.ZERO, botController.data(CarInfoProvider.class), 1)
         );
     }
 }

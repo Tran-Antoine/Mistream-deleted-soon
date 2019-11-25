@@ -1,14 +1,17 @@
-package net.akami.mistream.trajectory.list;
+package net.akami.mistream.play.list;
 
 import net.akami.mistream.gamedata.CarInfoProvider;
 import net.akami.mistream.output.ControlsOutput;
-import net.akami.mistream.trajectory.UnfragmentableOutputSequence;
+import net.akami.mistream.play.OutputSequence;
+import net.akami.mistream.play.UnfragmentableOutputSequence;
 import net.akami.mistream.vector.Vector2f;
 import net.akami.mistream.vector.Vector3f;
 import rlbot.ControllerState;
 
+import java.util.LinkedList;
 import java.util.function.Function;
 
+// TODO : Some stuff can be moved to the upper class
 public abstract class EndToEndSequence extends UnfragmentableOutputSequence {
 
     protected Vector3f end;
@@ -23,7 +26,7 @@ public abstract class EndToEndSequence extends UnfragmentableOutputSequence {
     protected abstract Function<Integer, Float> getBoostFunction();
 
     @Override
-    public ControllerState apply() {
+    public ControllerState apply(LinkedList<OutputSequence> queue) {
 
         Vector2f carDir = locProvider.getBotDirection().flatten();
         Vector2f carLoc = locProvider.getBotLocation().flatten();
@@ -53,11 +56,6 @@ public abstract class EndToEndSequence extends UnfragmentableOutputSequence {
                 .withThrottle(speed == -1 ? 1 : speed)
                 .withBoost(speed == -1 && !drift)
                 .withSlide(drift);
-    }
-
-    @Override
-    public int frameExecutionsNumber() {
-        return 0;
     }
 
     @Override

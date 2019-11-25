@@ -1,9 +1,9 @@
-package net.akami.mistream.trajectory.list;
+package net.akami.mistream.play.list;
 
 import net.akami.mistream.gamedata.CarInfoProvider;
-import net.akami.mistream.trajectory.FragmentedOutputSequence;
-import net.akami.mistream.trajectory.BotController;
-import net.akami.mistream.trajectory.OutputSequence;
+import net.akami.mistream.play.FragmentedOutputSequence;
+import net.akami.mistream.core.BotController;
+import net.akami.mistream.play.OutputSequence;
 import net.akami.mistream.vector.Vector3f;
 import rlbot.flat.GameTickPacket;
 
@@ -19,11 +19,11 @@ public abstract class KickoffOutputSequence extends FragmentedOutputSequence {
     }
 
     @Override
-    public boolean isSuitable(GameTickPacket packet, int delay, Queue<OutputSequence> queue) {
+    public boolean isSuitable(GameTickPacket packet, Queue<OutputSequence> queue) {
         Vector3f convertedLocation = new Vector3f(packet.players(0).physics().location());
         return convertedLocation.absoluteEquals(this.absoluteLocation)
                 && queue.size() == 0
-                && true;//packet.gameInfo().isKickoffPause();
+                && packet.gameInfo().isKickoffPause();
     }
 
     public boolean isOnLeft() {

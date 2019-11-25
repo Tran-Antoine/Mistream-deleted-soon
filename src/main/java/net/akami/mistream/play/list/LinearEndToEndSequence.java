@@ -1,7 +1,7 @@
-package net.akami.mistream.trajectory.list;
+package net.akami.mistream.play.list;
 
 import net.akami.mistream.gamedata.CarInfoProvider;
-import net.akami.mistream.trajectory.OutputSequence;
+import net.akami.mistream.play.OutputSequence;
 import net.akami.mistream.vector.Vector3f;
 import rlbot.flat.GameTickPacket;
 
@@ -23,7 +23,7 @@ public class LinearEndToEndSequence extends EndToEndSequence {
     }
 
     @Override
-    public boolean isSuitable(GameTickPacket packet, int delay, Queue<OutputSequence> queue) {
+    public boolean isSuitable(GameTickPacket packet, Queue<OutputSequence> queue) {
         return false;
     }
 }
